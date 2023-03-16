@@ -1,5 +1,15 @@
-<?php
+<html>
+    <body>
+        <form action="" method="post">
+            <label for="number">Give number:</label>
+            <input type="number" name="number" id="number">
+            <br/>
+            <input type="submit" name="Send" value="send">
+        </form>
+    </body>
+</html>
 
+<?php
 function pod($x){
     $temp = sqrt($x);
     $y = 0;
@@ -22,5 +32,5 @@ function pod($x){
     return $y;
 }
 
-echo pod(13);
-
+$x = intval($_POST["number"]);
+echo pod($x);
