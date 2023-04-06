@@ -1,7 +1,7 @@
 <html>
 <body>
 <?php
-$file = fopen("Plik.csv","w+");
+$file = fopen("Plik.csv","r");
 $i = 0;
 while (!feof($file)){
     $tab[$i] = fgetcsv($file);

@@ -27,9 +27,11 @@ else if($_POST['operation'] == "edit"){
     fclose($file);
     $file = fopen("Plik.csv","w");
     foreach ($tab as $item){
-        fwrite($file,"$item[0],$item[1],$item[2]");
+        var_dump($item);
+        fwrite($file,"$item[0],$item[1],$item[2]\n");
     }
     fclose($file);
+    header("location: Ex5.3.php");
 }
 else{
     header("location: Ex5.3.php");
@@ -42,7 +44,7 @@ else{
     <label for="link">Link:</label>
     <input type="text" name="link" value="<?php echo $edit[1]; ?>" id="link">
     <br>
-    <label for="tresc">Link:</label>
+    <label for="tresc">Tresc:</label>
     <input type="text" name="tresc" value="<?php echo $edit[2]; ?>" id="tresc">
     <br>
     <input type="submit" name="operation" value="edit">
