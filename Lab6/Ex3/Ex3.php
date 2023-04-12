@@ -33,7 +33,15 @@ function printsup($row,$column,$tab){
         return "<INPUT TYPE=radio name='pole' value='$row.$column'>";
     }
     else{
-        return "$tab[$row][$column]";
+        return $tab[$row][$column];
+    }
+}
+function player($round){
+    if($round % 2 == 1){
+        return 1;
+    }
+    else{
+        return 2;
     }
 }
 function ruch($round,$row,$column,$tab){
@@ -43,7 +51,6 @@ function ruch($round,$row,$column,$tab){
     else{
         $player = 2;
     }
-    echo "Player's $player turn";
     if ($tab[$row][$column] == ".."){
         if($player == 1){
             $tab[$row][$column] = "o";
@@ -57,28 +64,57 @@ function ruch($round,$row,$column,$tab){
     }
     return $tab;
 }
+if(isset($_SESSION["tab"])){
+    $tab = $_SESSION["tab"];
+    $round = $_SESSION["round"];
 
-
-if(isset($_POST['send'])){
-    for($i=0;$i>3;$i++){
-        for($j=0;$j>3;$j++){
-            if($_POST['pole'] == "$i.$j"){
-                $tab[i][j] == $round - 1// Ogranij sesje debilu $tab i round
+    if(isset($_POST['send'])){
+        for($row=0;$row < 3;$row++){
+            for($column=0;$column<3;$column++){
+                if($_POST['pole'] == "$row.$column"){
+                    $tab = ruch($round,$row,$column,$tab);
+                    $_SESSION["tab"] = $tab;
+                    $_SESSION["round"] += 1;
+                }
             }
         }
     }
+    else{
+        $_SESSION["tab"] = [["..","..",".."],["..","..",".."],["..","..",".."]];
+        $_SESSION["round"] = 1;
+    }
+    if(!checkVictory($_SESSION["tab"])){
+        if($_SESSION["round"] == 10){
+            $_SESSION["tab"] = [["..","..",".."],["..","..",".."],["..","..",".."]];
+            $_SESSION["round"] = 1;
+            header("location: Ex3.php");
+        }
+        ?>
+        <html>
+            <body>
+                <?php echo "Player's " . player(player($_SESSION["round"])) . " turn"; ?>
+                <form method="post">
+                    <?php printBoard($_SESSION["tab"]) ?>
+                    <input type="submit" name="send" value="send">
+                </form>
+            </body>
+        </html>
+        <?php
+    }
+    else{
+        ?>
+        <html>
+            <body>
+            <?php echo "Player " . player($_SESSION["round"] - 1) . " won!";?>
+            </body>
+        </html>
+        <?php
+    }
 }
 else{
-    $tab = [["..","..",".."],["..","..",".."],["..","..",".."]];
+    $_SESSION["tab"] = [["..","..",".."],["..","..",".."],["..","..",".."]];
+    $_SESSION["round"] = 0;
+    header("location: Ex3.php");
 }
-?>
-<html>
-    <body>
-        <form method="post">
-            <?php printBoard($tab) ?>
-            <input type="submit" name="send" value="send">
-        </form>
-    </body>
-</html>
 
 
