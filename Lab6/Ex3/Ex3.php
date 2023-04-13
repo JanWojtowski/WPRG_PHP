@@ -12,7 +12,7 @@ function checkVictory($tab){
     if ($tab[0][0] == $tab[1][1] and $tab[1][1] == $tab[2][2] and $tab[0][0] != ".."){
         return true;
     }
-    if ($tab[0][2] == $tab[1][1] and $tab[1][1] == $tab[2][2] and $tab[0][2] != ".."){
+    if ($tab[0][2] == $tab[1][1] and $tab[1][1] == $tab[2][0] and $tab[0][2] != ".."){
         return true;
     }
     return false;
