@@ -34,4 +34,18 @@ function swflag(){
     imagejpeg($flag,"swflag.jpg");
 }
 
+function nrflag(){
+    $flag = blankflag(700,500);
+    $red = imagecolorallocate($flag,255,0,0);
+    $white = imagecolorallocate($flag,255,255,255);
+    $blue = imagecolorallocate($flag,0,0,255);
+    imagefill($flag,0,0,$red);
+    imagefilledrectangle($flag,200,0,300,500,$white);
+    imagefilledrectangle($flag,0,200,700,300,$white);
+    imagefilledrectangle($flag,225,0,275,500,$blue);
+    imagefilledrectangle($flag,0,225,700,275,$blue);
+    imagejpeg($flag,"nrflag.jpg");
+}
+
 swflag();
+nrflag();
