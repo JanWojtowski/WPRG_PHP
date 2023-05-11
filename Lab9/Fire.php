@@ -26,13 +26,13 @@ class Fire extends Pokemon{
         return $this->element;
     }
 
-    public function specialAtack(){
+    public function specialAtack(Pokemon $pokemon){
         $liczba = rand(0,9);
         if($liczba % 2) {
-            return true;
+            $pokemon->setIsConfused(true);
         }
         else{
-            return false;
+            $pokemon->setIsConfused(false);
         }
     }
 

@@ -5,6 +5,8 @@ class Water extends Pokemon{
     private $element = "Water";
     private $weak = "Earth";
     private $strong = "Fire";
+    private $canStun = false;
+    private $canConf = false;
 
     public function __construct($name, $HP, $atackDMG,$src)
     {
@@ -26,13 +28,13 @@ class Water extends Pokemon{
         return $this->element;
     }
 
-    public function specialAtack(){
+    public function specialAtack(Pokemon $pokemon){
         $liczba = rand(0,9);
         if($liczba % 2) {
-            x;
+            $pokemon->setIsStuned(true);
         }
         else{
-            return false;
+            $pokemon->setIsStuned(false);
         }
     }
 
