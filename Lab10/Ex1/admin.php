@@ -93,7 +93,7 @@ else{
                 exit();
             }
             elseif(isset($_GET["upl"])){
-
+                $query = "UPDATE cars where id =" . $_GET["id"] . "";
             }
             else{
                 ?>
