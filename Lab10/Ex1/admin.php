@@ -78,7 +78,7 @@ else{
             <?php
         }
     }
-    elseif($_GET["edit"]){
+    elseif(isset($_GET["edit"])){
         $query = "SELECT * FROM cars where id = " . $_GET["edit"];
         $result = $db->query($query);
         if (!$result){
@@ -93,13 +93,18 @@ else{
                 exit();
             }
             elseif(isset($_GET["upl"])){
-                $query = "UPDATE cars where id =" . $_GET["id"] . "";
+                $query = "UPDATE cars SET marka = " . $_POST["marka"] . ", model = " . $_POST['model'] . ", cena = " . $_POST["cena"] . ", rok = " . $_POST["rok"] . ", opis = " . $_POST["opis"] . " WHERE id=" . $_GET["id"];
+                $result = $db->query($query);
+                if(!$result){
+                    echo "BŁĄD w zapytaniu";
+                    exit;
+                }
             }
             else{
                 ?>
                     <html>
                         <body>
-                            <form action="<?php echo "admin.php?edit=" . $_GET["edit"] . "&upl=" . $row["id"] . "&strona=" . $_GET["strona"];?>">
+                            <form action="<?php echo "admin.php?edit=" . $_GET["edit"] . "&upl=" . $row["id"] . "&strona=" . $_GET["strona"]?> method=post">
                                 <label for="marka">Marka:</label><br>
                                 <input type="text" id="marka" name="marka" value="<?php echo $row["marka"]; ?>"><br>
                                 <label for="model">Model:</label><br>
@@ -118,10 +123,52 @@ else{
         }
 
     }
+    elseif (isset($_GET["add"])){
+        if($_GET["add"] == 1){
+            $values = $_POST["marka"] . ", " . $_POST["model"] . ", " . $_POST["cena"] . ", " . $_POST["rok"] . ", " .$_POST["opis"];
+            $query = "INSERT INTO cars (marka,model,cena,rok,opis) VALUES ($values)";
+            $result = $db->query($query);
+            if(!$result){
+                echo "BŁĄD w zapytaniu";
+                exit;
+            }
+        }
+        else{
+            ?>
+            <html>
+            <body>
+            <form action="<?php echo "admin.php?add=" . "1" . "&strona=" . $_GET["strona"]?> method=post">
+                <label for="marka">Marka:</label><br>
+                <input type="text" id="marka" name="marka" "><br>
+                <label for="model">Model:</label><br>
+                <input type="text" id="model" name="model" "><br>
+                <label for="cena">Cena:</label><br>
+                <input type="text" id="cena" name="cena" "><br>
+                <label for="rok">Rok produkcji:</label><br>
+                <input type="text" id="rok" name="rok" "><br>
+                <label for="opis">Opis:</label><br>
+                <input type="text" id="opis" name="opis" "><br>
+            </form>
+            </body>
+            </html>
+            <?php
+        }
+    }
     else{
         if(!isset($_GET['strona'])){
             header("location: admin.php?strona=0");
         }
+
+        ?>
+        <html>
+            <body>
+                <?php
+                    echo "<a href=index.php> Strona Głowna </a>";
+                    echo "</br>";
+                ?>
+            </body>
+        </html>
+        <?php
 
         $limit = 5;
         $offset = $_GET['strona'] * $limit;
@@ -136,12 +183,12 @@ else{
             echo $row["id"] . "    " . $row["marka"] . "    " . $row["model"];
             ?>
             <html>
-            <body>
-            <?php
-            echo "<a href=admin.php?info=" . $row["id"] . "&strona=" . $_GET["strona"] . "> Wiecej informacji </a>";
-            echo "<a href=admin.php?edit=" . $row["id"] . "&strona=" . $_GET["strona"] . "> Wiecej informacji </a>";
-            ?>
-            </body>
+                <body>
+                    <?php
+                        echo "<a href=admin.php?info=" . $row["id"] . "&strona=" . $_GET["strona"] . "> Wiecej informacji </a>";
+                        echo "<a href=admin.php?edit=" . $row["id"] . "&strona=" . $_GET["strona"] . "> Edytuj </a>";
+                    ?>
+                </body>
             </html>
             <?php
             echo "</br>";
@@ -150,6 +197,7 @@ else{
         <html>
         <body>
         <?php
+        echo "<a href=admin.php?add=0" . "&strona=" . $_GET["strona"] . "> Edytuj </a>";
         if($_GET["strona"] != 0){
             echo "<a href=admin.php?strona=" . ($_GET["strona"] - 1) . "> <--Poprzednia </a>";
         }

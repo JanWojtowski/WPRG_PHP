@@ -38,6 +38,16 @@ else{
     if(!isset($_GET['strona'])){
         header("location: index.php?strona=0");
     }
+    ?>
+    <html>
+        <body>
+            <?php
+                echo "<a href=admin.php> Moje pojazdy </a>";
+                echo "</br>";
+            ?>
+        </body>
+    </html>
+    <?php
 
     $limit = 5;
     $offset = $_GET['strona'] * $limit;
