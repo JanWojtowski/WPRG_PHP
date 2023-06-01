@@ -93,10 +93,10 @@ else{
                 exit();
             }
             elseif(isset($_GET["upl"])){
-                $query = "UPDATE cars SET marka = " . $_POST["marka"] . ", model = " . $_POST['model'] . ", cena = " . $_POST["cena"] . ", rok = " . $_POST["rok"] . ", opis = " . $_POST["opis"] . " WHERE id=" . $_GET["id"];
-                $result = $db->query($query);
+                $query = "UPDATE cars SET marka = " . "\"" . $_POST["marka"] . "\"". ", model = " . "\"". $_POST['model'] . "\"". ", cena = " . "\"". $_POST["cena"] . "\"". ", rok = " . "\"". $_POST["rok"] . "\"". ", opis = " . "\"". $_POST["opis"] . "\"". " WHERE id =" . $_GET["upl"];
+                $result = $db->exec($query);
                 if(!$result){
-                    echo "BŁĄD w zapytaniu";
+                    echo "BŁĄD w zapytaniu upl";
                     exit;
                 }
             }
@@ -104,7 +104,7 @@ else{
                 ?>
                     <html>
                         <body>
-                            <form action="<?php echo "admin.php?edit=" . $_GET["edit"] . "&upl=" . $row["id"] . "&strona=" . $_GET["strona"]?> method=post">
+                            <form action="<?php echo "admin.php?edit=" . $_GET["edit"] . "&upl=" . $row["id"] . "&strona=" . $_GET["strona"]?>" method="post"">
                                 <label for="marka">Marka:</label><br>
                                 <input type="text" id="marka" name="marka" value="<?php echo $row["marka"]; ?>"><br>
                                 <label for="model">Model:</label><br>
@@ -115,6 +115,7 @@ else{
                                 <input type="text" id="rok" name="rok" value="<?php echo $row["rok"]; ?>"><br>
                                 <label for="opis">Opis:</label><br>
                                 <input type="text" id="opis" name="opis" value="<?php echo $row["opis"]; ?>"><br>
+                                <input type="submit" name="Send" value="send">
                             </form>
                         </body>
                     </html>
@@ -125,9 +126,9 @@ else{
     }
     elseif (isset($_GET["add"])){
         if($_GET["add"] == 1){
-            $values = $_POST["marka"] . ", " . $_POST["model"] . ", " . $_POST["cena"] . ", " . $_POST["rok"] . ", " .$_POST["opis"];
-            $query = "INSERT INTO cars (marka,model,cena,rok,opis) VALUES ($values)";
-            $result = $db->query($query);
+            $values = "\"" . $_POST["marka"] . "\", \"" . $_POST["model"] . "\", \"" . $_POST["cena"] . "\", \"" . $_POST["rok"] . "\", \"" .$_POST["opis"] ."\", \"" . $_SESSION['id'] . "\"";
+            $query = "INSERT INTO cars (marka,model,cena,rok,opis,user_id) VALUES (" . $values .")";
+            $result = $db->exec($query);
             if(!$result){
                 echo "BŁĄD w zapytaniu";
                 exit;
@@ -137,7 +138,7 @@ else{
             ?>
             <html>
             <body>
-            <form action="<?php echo "admin.php?add=" . "1" . "&strona=" . $_GET["strona"]?> method=post">
+            <form action="<?php echo "admin.php?add=1&strona=" . $_GET["strona"]?>" method="post"">
                 <label for="marka">Marka:</label><br>
                 <input type="text" id="marka" name="marka" "><br>
                 <label for="model">Model:</label><br>
@@ -148,6 +149,7 @@ else{
                 <input type="text" id="rok" name="rok" "><br>
                 <label for="opis">Opis:</label><br>
                 <input type="text" id="opis" name="opis" "><br>
+                <input type="submit" name="Send" value="send">
             </form>
             </body>
             </html>
@@ -197,7 +199,7 @@ else{
         <html>
         <body>
         <?php
-        echo "<a href=admin.php?add=0" . "&strona=" . $_GET["strona"] . "> Edytuj </a>";
+        echo "<a href=admin.php?add=0" . "&strona=" . $_GET["strona"] . "> Dodaj Pojazd </a><br>";
         if($_GET["strona"] != 0){
             echo "<a href=admin.php?strona=" . ($_GET["strona"] - 1) . "> <--Poprzednia </a>";
         }
